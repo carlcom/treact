@@ -10,7 +10,6 @@
   --drkblue: #243e63;
   --white: #f7fafc;
   --offwhite: #e5e7eb;
-  --scroll-animation-threshold: 0.05;
 }
 
 body {
@@ -93,7 +92,7 @@ nav {
   height: fit-content;
   display: flex;
   justify-content: space-between;
-  align-items: center;  
+  align-items: center;
   width: calc(100% - 4rem);
   max-width: 1200px;
   margin: 2rem auto 1rem;
@@ -167,25 +166,18 @@ nav {
   opacity: 0;
 }
 
-.menu--open .menu__backdrop {
-  visibility: visible;
-  opacity: 1;
-  animation-name: bounce;
-  animation-duration: 600ms;
-}
-
 @keyframes bounce {
   0% {
-    opacity: 0.5;
+    opacity: 0.4;
     transform: translateX(500px);
   }
   30% {
-    opacity: 1;
+    opacity: 0.6;
     transform: translateX(-80px);
   }
 
   60% {
-    opacity: 1;
+    opacity: 0.8;
     transform: translateX(20px);
   }
   100% {
@@ -247,34 +239,17 @@ nav {
 @keyframes from-the-left-one-time {
   from {
     opacity: 0;
-    transform: translateX(-100vw);
-  }
-  to {
-    transform: translateX(0);
+    transform: translateX(-80%);
   }
 }
 .from-the-left-one-time {
-  animation: from-the-left-one-time 0.6s;
-  opacity: 1;
-}
-.scroll-animation-show {
-  opacity: 1;
-  transform: translateX(0);
-  will-change: transform, opacity;
-}
-
-.from-the-left {
-  opacity: 0;
-  /* transform: translateX(-80vw); */
-  transition: all 0.6s ease-out;
-  will-change: transform, opacity;
+  animation: from-the-left-one-time 0.8s;
 }
 
 .from-the-right {
   opacity: 0;
-  /* transform: translateX(80vw); This should work w/o @keyframes,
-   but href="#pricing" puts all the content to the left? */
-  transition: all 0.6s ease-out;
+  transform: translateX(80vw);
+  transition: all 0.8s;
 }
 
 @keyframes from-the-right {
@@ -282,13 +257,17 @@ nav {
     opacity: 0;
     transform: translateX(80vw);
   }
-  to {
-    transform: translateX(0); 
-    opacity: 1;
-  }
 }
 .from-the-right.scroll-animation-show {
-  animation: from-the-right 0.6s forwards;
+  opacity: 1;
+  transform: translateX(0);
+  animation: from-the-right ease-in-out;
+}
+
+.from-the-left {
+  opacity: 0;
+  transform: translateX(-80vw);
+  transition: all 0.8s;
 }
 
 @keyframes from-the-left {
@@ -296,13 +275,11 @@ nav {
     opacity: 0;
     transform: translateX(-80vw);
   }
-  to {
-    transform: translateX(0); 
-    opacity: 1;
-  }
 }
 .from-the-left.scroll-animation-show {
-  animation: from-the-left 0.6s forwards;
+  opacity: 1;
+  transform: translateX(0);
+  animation: from-the-left ease-in-out;
 }
 
 /*      LANDING       */
@@ -840,7 +817,7 @@ span {
   color: #460fb3;
   transform: translate(1px, -1px);
   transition-duration: 300ms;
-  box-shadow: 0 20px 25px -5px #0000001a,0 10px 10px -5px #0000000a;
+  box-shadow: 0 20px 25px -5px #0000001a, 0 10px 10px -5px #0000000a;
 }
 
 .personal__card,
@@ -872,10 +849,9 @@ span {
   border-bottom: 2px solid var(--offwhite);
 }
 
-
 .card__top-border {
-  width: calc(100% + 4px);
-  margin: -2px;
+  width: calc(100% + 2px);
+  margin: -1px;
   height: 0.5rem;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
@@ -1114,6 +1090,12 @@ footer {
   margin-top: 6rem;
 }
 
+.footer__container {
+  width: calc(100% - 4rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .links {
   display: flex;
   flex-wrap: wrap;
@@ -1212,7 +1194,13 @@ footer {
 /*    @media Medium     SMALL PHONES TABLETS LARGE SMARTPHONES */
 @media (max-width: 768px) {
   /*   @media Medium     header          */
-  :root {--scroll-animation-threshold: 0.03;}
+
+  .menu--open .menu__backdrop {
+    visibility: visible;
+    opacity: 1;
+    animation-name: bounce;
+    animation-duration: 600ms;
+  }
 
   .light-menu-icon {
     height: 1.5rem;
@@ -1298,7 +1286,7 @@ footer {
     width: 50%;
     margin: auto 0;
   }
-  
+
   .steps__svg-dots {
     height: 5rem;
     width: 5rem;
@@ -1360,8 +1348,6 @@ footer {
 
 /*    @media Small    SMALL PHONES            */
 @media (max-width: 550px) {
-  :root {--scroll-animation-threshold: 0.01;}
-
   .btn {
     position: relative;
     width: 100%;
@@ -1603,6 +1589,4 @@ footer {
   .footer--para {
     padding: 24px 0;
   }
-
-
 }

@@ -1,50 +1,47 @@
 function openMenu() {
-    document.body.classList.add('menu--open')
+  document.body.classList.add("menu--open");
 }
 
 function closeMenu() {
-    document.body.classList.remove('menu--open')
+  document.body.classList.remove("menu--open");
 }
 
-window.onload = function() {
-  // Function to get the CSS variable value for threshold
-  function getThresholdFromCSS() {
-    // Use getComputedStyle to access the CSS variable set in :root
-    const rootStyles = getComputedStyle(document.documentElement);
-
-    return parseFloat(rootStyles.getPropertyValue("--scroll-animation-threshold")) || 0.05; // Default fallback
+function createObserver() {
+  // Disconnect any existing observers to avoid duplicates
+  if (window.scrollObserver) {
+    window.scrollObserver.disconnect();
   }
 
+  // Calculate the threshold based on element size relative to the viewport height
+  const elements = document.querySelectorAll(".from-the-left, .from-the-right");
+  elements.forEach((element) => {
+    const threshold = Math.min(1, (window.innerHeight / element.clientHeight) * 0.2); // Element fills 20% of the viewport
 
-  function createObserver() {
-    // Clean up the previous observer if it exists
-    if (window.scrollObserver) {
-      window.scrollObserver.disconnect();
-    }
+    // Create an IntersectionObserver for each element with the calculated threshold
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Check if near the bottom (adjust -100 to fine-tune)
+          const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 40;
+          if (entry.isIntersecting) {
+            entry.target.classList.add("scroll-animation-show");
+          } else if (!nearBottom) {
+            entry.target.classList.remove("scroll-animation-show");
+          }
+        });
+      },
+      {
+        threshold,
+        rootMargin: "0px 80% 0px 80%", // Expand detection area horizontally for .from-the- translateX(80vw)
+      }
+    );
 
-    // Create a new Intersection Observer with the dynamic threshold
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("scroll-animation-show");
-        } else {
-          entry.target.classList.remove("scroll-animation-show");
-        }
-          // observer.unobserve(entry.target); // Optional: Stop observing after animation triggers
-        
-      });
-    }, { threshold: getThresholdFromCSS() });
-
-    // Attach the observer to each target element
-    document.querySelectorAll(".from-the-left, .from-the-right").forEach((el) => observer.observe(el));
-
-    // Store the observer globally for potential future management
+    observer.observe(element);
+    // Store observer for future reference if needed
     window.scrollObserver = observer;
-  }
+  });
+}
 
-  // Initialize the observer on page load
-  createObserver();
-
-  // Recreate the observer on resize to adjust the threshold dynamically
-  window.addEventListener('resize', createObserver);
-};
+// Set up the observer on load and resize
+window.onload = createObserver;
+window.addEventListener("resize", createObserver);

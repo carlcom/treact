@@ -21,8 +21,8 @@ function createObserver() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Check if near the bottom (adjust -100 to fine-tune)
-          const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 40;
+          // Check if near the bottom (Don't show a lot of white above the footer)
+          const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
           if (entry.isIntersecting) {
             entry.target.classList.add("scroll-animation-show");
           } else if (!nearBottom) {
@@ -42,6 +42,9 @@ function createObserver() {
   });
 }
 
-// Set up the observer on load and resize
-window.onload = createObserver;
-window.addEventListener("resize", createObserver);
+// Skip animations if user prefers-reduced-motion
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  // Set up the observer on load and resize
+  window.onload = createObserver;
+  window.addEventListener("resize", createObserver);
+}

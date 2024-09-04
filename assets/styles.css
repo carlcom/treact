@@ -252,41 +252,40 @@ nav {
   opacity: 0;
 }
 
-@keyframes from-the-right {
-  0% {
+@keyframes from-the-rightX {
+  from {
     transform: translateX(80vw);
-    opacity: 0;
   }
-  70% {
-    opacity: 0.5;
+}
+@keyframes from-the-O {
+  from {
+    opacity: 0;
   }
 }
 
 .from-the-right.scroll-animation-show {
   transform: translateX(0);
-  animation: from-the-right 0.6s cubic-bezier(0.21, 0.78, 0.63, 0.97);
   opacity: 1;
+  animation: from-the-rightX 0.6s cubic-bezier(0.21, 0.78, 0.63, 0.97)
+          , from-the-O 0.6s cubic-bezier(0.81, 0.35, 0.95, 0.73);
 }
 
 .from-the-left {
   opacity: 0;
   transform: translateX(-80vw);
-  transition: all 0.6s;
+  transition: ease-out 0.6s;
 }
 
-@keyframes from-the-left {
-  0% {
+@keyframes from-the-leftX {
+  from {
     transform: translateX(-80vw);
-    opacity: 0;
-  }
-  70% {
-    opacity: 0.5;
   }
 }
 .from-the-left.scroll-animation-show {
   transform: translateX(0);
   opacity: 1;
-  animation: from-the-left 0.6s cubic-bezier(0.21, 0.78, 0.63, 0.97);
+  animation: from-the-leftX 0.6s cubic-bezier(0.21, 0.78, 0.63, 0.97)
+          , from-the-O 0.6s cubic-bezier(0.81, 0.35, 0.95, 0.73);
 }
 
 /*      LANDING       */
